@@ -120,6 +120,10 @@ inline Tensor softshrink(const Tensor& input,
   return torch::softshrink(input, options.lambda());
 }
 
+inline Tensor softsign(const Tensor& input) {
+  return input / (input.abs() + 1);
+}
+
 } // namespace functional
 } // namespace nn
 } // namespace torch
