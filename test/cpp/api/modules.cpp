@@ -729,6 +729,9 @@ TEST_F(ModulesTest, Linear) {
   ASSERT_EQ(y.size(1), 2);
 
   ASSERT_EQ(model->weight.grad().numel(), 2 * 5);
+
+  auto y_exp = torch::addmm(model->bias, x, model->weight.t());
+  ASSERT_TRUE(torch::allclose(y, y_exp));
 }
 
 TEST_F(ModulesTest, Fold) {
@@ -1399,7 +1402,7 @@ TEST_F(ModulesTest, PrettyPrintIdentity) {
 
 TEST_F(ModulesTest, PrettyPrintLinear) {
   ASSERT_EQ(
-      c10::str(Linear(3, 4)), "torch::nn::Linear(in=3, out=4, with_bias=true)");
+      c10::str(Linear(3, 4)), "torch::nn::Linear(in_features=3, out_features=4, bias=true)");
 }
 
 TEST_F(ModulesTest, PrettyPrintConv) {
